@@ -1,0 +1,32 @@
+function init(self)
+	msg.post(".", "acquire_input_focus")
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		--ROCK BUTTON
+		local rock = gui.get_node("rock")
+		local textRock = gui.get_node("textRock")
+		if gui.pick_node(rock, action.x, action.y) then
+			gui.set_text(textRock, "ROCK!")
+		else
+			gui.set_text(textRock, "CLICK ME!")
+		end
+		--PAPER BUTTON
+		local paper = gui.get_node("paper")
+		local textPaper = gui.get_node("textPaper")
+		if gui.pick_node(paper, action.x, action.y) then
+			gui.set_text(textPaper, "PAPER!")
+		else
+			gui.set_text(textPaper, "CLICK ME!")
+		end
+		--SCISSORS BUTTON
+		local scissors = gui.get_node("scissors")
+		local textScissors = gui.get_node("textScissors")
+		if gui.pick_node(scissors, action.x, action.y) then
+			gui.set_text(textScissors, "SCISSORS!")
+		else
+			gui.set_text(textScissors, "CLICK ME!")
+		end		
+	end
+end
