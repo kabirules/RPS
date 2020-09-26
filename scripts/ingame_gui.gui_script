@@ -9,6 +9,7 @@ function on_input(self, action_id, action)
 		local textRock = gui.get_node("textRock")
 		if gui.pick_node(rock, action.x, action.y) then
 			gui.set_text(textRock, "ROCK!")
+			msg.post("/main_script", "rock")
 		else
 			gui.set_text(textRock, "CLICK ME!")
 		end
