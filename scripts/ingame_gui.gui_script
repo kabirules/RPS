@@ -1,29 +1,55 @@
+ROCK = "rock"
+PAPER = "paper"
+SCISSORS = "scissors"
+
 function init(self)
 	msg.post(".", "acquire_input_focus")
 end
 
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
-		--ROCK BUTTON
-		local rock = gui.get_node("rock")
-		local textRock = gui.get_node("textRock")
-		if gui.pick_node(rock, action.x, action.y) then
-			gui.set_text(textRock, "ROCK!")
-			msg.post("/main_script", "rock")
+		--ROCK BUTTON - plays 'rock' for player1
+		local rock_button = gui.get_node(ROCK)
+		if gui.pick_node(rock_button, action.x, action.y) then
+			player_play = {}
+			player_play["player_play"] = ROCK
+			msg.post("/main_script", "player_play", player_play)
 		end
-		--PAPER BUTTON
-		local paper = gui.get_node("paper")
-		local textPaper = gui.get_node("textPaper")
-		if gui.pick_node(paper, action.x, action.y) then
-			gui.set_text(textPaper, "PAPER!")
-			msg.post("/main_script", "paper")
+		--PAPER BUTTON - plays 'paper' for player1
+		local paper_button = gui.get_node(PAPER)
+		if gui.pick_node(paper_button, action.x, action.y) then
+			player_play = {}
+			player_play["player_play"] = PAPER
+			msg.post("/main_script", "player_play", player_play)
 		end
-		--SCISSORS BUTTON
-		local scissors = gui.get_node("scissors")
-		local textScissors = gui.get_node("textScissors")
-		if gui.pick_node(scissors, action.x, action.y) then
-			gui.set_text(textScissors, "SCISSORS!")
-			msg.post("/main_script", "scissors")
-		end		
+		--SCISSORS BUTTON - plays 'scissors' for player1
+		local scissors_button = gui.get_node(SCISSORS)
+		if gui.pick_node(scissors_button, action.x, action.y) then
+			player_play = {}
+			player_play["player_play"] = SCISSORS
+			msg.post("/main_script", "player_play", player_play)
+		end
+		--REPLAY BUTTON - empties cpu play and result texts
+		local replay_button = gui.get_node("replay_button")
+		if gui.pick_node(replay_button, action.x, action.y) then
+			local result_text = gui.get_node("result_text")
+			gui.set_text(result_text, "")			
+			local cpu_play_text = gui.get_node("cpu_play_text")
+			gui.set_text(cpu_play_text, "")
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	-- Shows the cpu play
+	if message_id == hash("cpu_play") then
+		local cpu_play_text = gui.get_node("cpu_play_text")
+		gui.set_text(cpu_play_text,"CPU PLAYS... ")
+		gui.set_text(cpu_play_text, gui.get_text(cpu_play_text) .. message["cpu_play"])
+	end
+	-- Shows who's the winner
+	if message_id == hash("play_result") then
+		local result_text = gui.get_node("result_text")
+		gui.set_text(result_text, message["winner"])
 	end
 end
