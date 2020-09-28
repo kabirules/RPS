@@ -2,6 +2,9 @@ ROCK = "rock"
 PAPER = "paper"
 SCISSORS = "scissors"
 
+hi_score = 0
+wins_in_a_row = 0
+
 function init(self)
 	print("main init!")
 end
@@ -49,23 +52,39 @@ end
 ]]
 function get_winner(player_play, cpu_play)
 	if player_play == cpu_play then
+		update_hi_score()
+		wins_in_a_row = 0
 		return "TIE!"
 	end
 	if player_play == ROCK then
 		if cpu_play == SCISSORS then
+			wins_in_a_row = wins_in_a_row + 1
 			return "PLAYER1 wins!"
 		end
 	end	
 	if player_play == PAPER then
 		if cpu_play == ROCK then
+			wins_in_a_row = wins_in_a_row + 1
 			return "PLAYER1 wins!"
 		end
 	end
 	if player_play == SCISSORS then
 		if cpu_play == PAPER then
+			wins_in_a_row = wins_in_a_row + 1
 			return "PLAYER1 wins!"
 		end
 	end
 	-- Any other condition, CPU wins
+	update_hi_score()
+	wins_in_a_row = 0
 	return "CPU wins!"
+end
+
+function update_hi_score()
+	if wins_in_a_row > hi_score then
+		hi_score = wins_in_a_row
+		update_hi_score_table = {}
+		update_hi_score_table["update_hi_score"] = "HIGH SCORE: " .. hi_score
+		msg.post("ingame_gui", "update_hi_score", update_hi_score_table)
+	end
 end

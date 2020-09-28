@@ -52,4 +52,9 @@ function on_message(self, message_id, message, sender)
 		local result_text = gui.get_node("result_text")
 		gui.set_text(result_text, message["winner"])
 	end
+	-- Update high score
+	if message_id == hash("update_hi_score") then
+		local wins_in_a_row_text = gui.get_node("wins_in_a_row_text")
+		gui.set_text(wins_in_a_row_text, message["update_hi_score"])
+	end
 end
