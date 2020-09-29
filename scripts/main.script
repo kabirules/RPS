@@ -39,10 +39,11 @@ end
  returns a random play: rock / paper /scissors
 ]]
 function get_play()
-	math.randomseed(os.time())
+	local random_num = math.random(1,9999)
+	math.randomseed(os.time() + random_num)
 	math.random(); math.random(); math.random()
 	local r = math.random(1,3)
-	plays_array = {ROCK,PAPER,"scissors"}
+	plays_array = {ROCK,PAPER,SCISSORS}
 	result = plays_array[r]
 	return result
 end
